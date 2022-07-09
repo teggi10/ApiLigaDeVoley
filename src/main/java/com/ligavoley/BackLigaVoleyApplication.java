@@ -20,7 +20,7 @@ public class BackLigaVoleyApplication {
 	public CorsFilter corsFilter() {
 	CorsConfiguration corsConfiguration = new CorsConfiguration();
 	corsConfiguration.setAllowCredentials(true);
-	corsConfiguration.setAllowedOrigins(Arrays.asList("https://liga-de-voley.web.app"));
+	corsConfiguration.setAllowedOrigins(Arrays.asList("https://liga-de-voley.web.app","http://localhost:4200"));
 	corsConfiguration.setAllowedHeaders(Arrays.asList("Origin", "Access-Control-Allow-Origin", "Content-Type",
 	"Accept", "Authorization", "Origin, Accept", "X-Requested-With",
 	"Access-Control-Requested-Method", "Access-Control-Allow-Credentials"));
