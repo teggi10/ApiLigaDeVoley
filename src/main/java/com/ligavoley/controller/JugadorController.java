@@ -2,6 +2,7 @@ package com.ligavoley.controller;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,9 +37,9 @@ public class JugadorController {
 	
 	 @PreAuthorize("permitAll() OR isAnonymous()")
 	 @GetMapping("/lista") 
-	    public ResponseEntity<List<Jugador>> list(){
-	        List<Jugador> list = jugadorService.list();
-	        return new ResponseEntity<List<Jugador>>(list, HttpStatus.OK);
+	    public ResponseEntity<Set<Jugador>> list(){
+	        Set<Jugador> list = (Set<Jugador>) jugadorService.list();
+	        return new ResponseEntity<Set<Jugador>>(list, HttpStatus.OK);
 	    }
 	 
 	  @GetMapping("/detail/{id}")
@@ -63,7 +64,16 @@ public class JugadorController {
 	        if(jugadorService.existsByNombre(jugadorDto.getNombre()) && jugadorService.getByNombre(jugadorDto.getNombre()).get().getDni() == jugadorDto.getDni()) {
 	        	Optional<Jugador> jugadorAlmacenado = jugadorService.getByNombre(jugadorDto.getNombre());
 	        	if(jugadorAlmacenado.isPresent() && jugadorAlmacenado.get().getEquipo() == jugadorDto.getEquipo() && jugadorAlmacenado.get().getDni() == jugadorDto.getDni()) {
-	        		jugadorAlmacenado.get().setEliminado(false);
+	        	    jugadorAlmacenado.get().setNombre(jugadorDto.getNombre());
+	        	    jugadorAlmacenado.get().setApellido(jugadorDto.getApellido());
+	        	    jugadorAlmacenado.get().setNumero(jugadorDto.getNumero());
+	        	    jugadorAlmacenado.get().setPosicion(jugadorDto.getPosicion());
+	        	    jugadorAlmacenado.get().setEquipo(jugadorDto.getEquipo());
+	        	    jugadorAlmacenado.get().setDni(jugadorDto.getDni());
+	        	    jugadorAlmacenado.get().setFechaNac(jugadorDto.getFechaNac());
+	        	    jugadorAlmacenado.get().setEliminado(jugadorDto.isEliminado());
+	        		jugadorService.save(jugadorAlmacenado.get());
+	    	        return new ResponseEntity(new Mensaje("Jugador creado"), HttpStatus.OK);
 	        	}else {
 	        		return new ResponseEntity(new Mensaje("No se permite cambiar jugadores de equipo"), HttpStatus.BAD_REQUEST);
 	        	}
