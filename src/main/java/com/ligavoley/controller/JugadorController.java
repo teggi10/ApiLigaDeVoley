@@ -50,52 +50,51 @@ public class JugadorController {
 	        return new ResponseEntity<Object>(jugador, HttpStatus.OK);
 	    }
 	  
-	  @GetMapping("/detailname/{nombre}")
-	    public ResponseEntity<Jugador> getByNombre(@PathVariable("nombre") String nombre){
-	        if(!jugadorService.existsByNombre(nombre))
-	            return new ResponseEntity<Jugador>(HttpStatus.NOT_FOUND);
-	        Jugador jugador = jugadorService.getByNombre(nombre).get();
-	        return new ResponseEntity<Jugador>(jugador, HttpStatus.OK);
-	    }
-	  
-	  @GetMapping("/detaildni/{dni}")
-	    public ResponseEntity<Jugador> getByDni(@PathVariable("dni") Integer dni){
-	        if(!jugadorService.existsByDni(dni))
-	            return new ResponseEntity<Jugador>(HttpStatus.NOT_FOUND);
-	        Jugador jugador = jugadorService.getByDni(dni).get();
-	        return new ResponseEntity<Jugador>(jugador, HttpStatus.OK);
-	    }
+//	  @GetMapping("/detailname/{nombre}")
+//	    public ResponseEntity<Jugador> getByNombre(@PathVariable("nombre") String nombre){
+//	        if(!jugadorService.existsByNombre(nombre))
+//	            return new ResponseEntity<Jugador>(HttpStatus.NOT_FOUND);
+//	        Jugador jugador = jugadorService.getByNombre(nombre).get();
+//	        return new ResponseEntity<Jugador>(jugador, HttpStatus.OK);
+//	    }
+//	  
+//	  @GetMapping("/detaildni/{dni}")
+//	    public ResponseEntity<Jugador> getByDni(@PathVariable("dni") Integer dni){
+//	        if(!jugadorService.existsByDni(dni))
+//	            return new ResponseEntity<Jugador>(HttpStatus.NOT_FOUND);
+//	        Jugador jugador = jugadorService.getByDni(dni).get();
+//	        return new ResponseEntity<Jugador>(jugador, HttpStatus.OK);
+//	    }
 	  
 	  @PreAuthorize("permitAll() OR isAnonymous()")
 	 /* @Secured("ROLE_ADMIN")*/
 	  @PostMapping("/create")
 	    public ResponseEntity<?> create(@RequestBody JugadorDto jugadorDto){
-	        if(jugadorService.existsByNombre(jugadorDto.getNombre())
-	        && jugadorService.getByNombre(jugadorDto.getNombre()).get().getApellido() == jugadorDto.getApellido()) {
-	        	
-	        	Optional<Jugador> jugadorAlmacenado = jugadorService.getByNombre(jugadorDto.getNombre());
-	        	if(jugadorAlmacenado.get().getEquipo().getIdEquipo() == jugadorDto.getEquipo().getIdEquipo() 
-	        	&& jugadorAlmacenado.get().getDni() == jugadorDto.getDni()) {
-	        	    jugadorAlmacenado.get().setNombre(jugadorDto.getNombre());
-	        	    jugadorAlmacenado.get().setApellido(jugadorDto.getApellido());
-	        	    jugadorAlmacenado.get().setNumero(jugadorDto.getNumero());
-	        	    jugadorAlmacenado.get().setPosicion(jugadorDto.getPosicion());
-	        	    jugadorAlmacenado.get().setEquipo(jugadorDto.getEquipo());
-	        	    jugadorAlmacenado.get().setDni(jugadorDto.getDni());
-	        	    jugadorAlmacenado.get().setFechaNac(jugadorDto.getFechaNac());
-	        	    jugadorAlmacenado.get().setEliminado(jugadorDto.isEliminado());
-	        		jugadorService.save(jugadorAlmacenado.get());
-	    	        return new ResponseEntity(new Mensaje("Jugador creado"), HttpStatus.OK);
-	        	}else {
-	        		return new ResponseEntity(new Mensaje("No se permite cambiar jugadores de equipo"), HttpStatus.BAD_REQUEST);
-	        	}
-	        	
-	        }
-	        Jugador jugador = new Jugador(null, jugadorDto.getNombre(), jugadorDto.getApellido(), jugadorDto.getDni(), jugadorDto.getFechaNac(), jugadorDto.getNumero(), jugadorDto.getPosicion(),jugadorDto.isEliminado(), jugadorDto.getEquipo());
-	        jugadorService.save(jugador);
-	        return new ResponseEntity(new Mensaje("Jugador creado"), HttpStatus.OK);
+		  Jugador jugador = new Jugador(null, jugadorDto.getNombre(), jugadorDto.getApellido(), jugadorDto.getDni(), jugadorDto.getFechaNac(), jugadorDto.getNumero(), jugadorDto.getPosicion(),jugadorDto.isEliminado(), jugadorDto.getEquipo());
+		  jugadorService.save(jugador);
+		  return new ResponseEntity(new Mensaje("Jugador creado"), HttpStatus.OK);
+//	        if(jugadorService.existsByNombre(jugadorDto.getNombre())
+//	        && jugadorService.getByNombre(jugadorDto.getNombre()).get().getApellido() == jugadorDto.getApellido()) {
+//	        	
+//	        	Optional<Jugador> jugadorAlmacenado = jugadorService.getByNombre(jugadorDto.getNombre());
+//	        	if(jugadorAlmacenado.get().getEquipo().getIdEquipo() == jugadorDto.getEquipo().getIdEquipo() 
+//	        	&& jugadorAlmacenado.get().getDni() == jugadorDto.getDni()) {
+//	        	    jugadorAlmacenado.get().setNombre(jugadorDto.getNombre());
+//	        	    jugadorAlmacenado.get().setApellido(jugadorDto.getApellido());
+//	        	    jugadorAlmacenado.get().setNumero(jugadorDto.getNumero());
+//	        	    jugadorAlmacenado.get().setPosicion(jugadorDto.getPosicion());
+//	        	    jugadorAlmacenado.get().setEquipo(jugadorDto.getEquipo());
+//	        	    jugadorAlmacenado.get().setDni(jugadorDto.getDni());
+//	        	    jugadorAlmacenado.get().setFechaNac(jugadorDto.getFechaNac());
+//	        	    jugadorAlmacenado.get().setEliminado(jugadorDto.isEliminado());
+//	        		jugadorService.save(jugadorAlmacenado.get());
+//	    	        return new ResponseEntity(new Mensaje("Jugador creado"), HttpStatus.OK);
+//	        	}else {
+//	        		return new ResponseEntity(new Mensaje("No se permite cambiar jugadores de equipo"), HttpStatus.BAD_REQUEST);
+//	        	}
+//	        	
+//	        }
 	    }
-	  
 	  @PreAuthorize("permitAll() OR isAnonymous()")
 	  /*@Secured("ROLE_ADMIN")*/
 	  @PutMapping("/update/{id}")
