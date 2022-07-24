@@ -37,9 +37,9 @@ public class JugadorController {
 	
 	 @PreAuthorize("permitAll() OR isAnonymous()")
 	 @GetMapping("/lista") 
-	    public ResponseEntity<Set<Jugador>> list(){
-	        Set<Jugador> list = (Set<Jugador>) jugadorService.list();
-	        return new ResponseEntity<Set<Jugador>>(list, HttpStatus.OK);
+	    public ResponseEntity<List<Jugador>> list(){
+	        List<Jugador> list = jugadorService.list();
+	        return new ResponseEntity<List<Jugador>>(list, HttpStatus.OK);
 	    }
 	 
 	  @GetMapping("/detail/{id}")
