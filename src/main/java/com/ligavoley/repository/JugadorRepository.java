@@ -11,4 +11,6 @@ public interface JugadorRepository extends JpaRepository<Jugador, Integer>{
 	
 	Optional<Jugador> findByNombre(String nombre);
 	boolean existsByNombre(String nombre);
+	Optional<Jugador> findByDni(Integer dni);
+	boolean existsByDni(Integer dni);
 }

@@ -30,6 +30,10 @@ public class JugadorService {
     public Optional<Jugador> getByNombre(String nombre){
         return jugadorRepository.findByNombre(nombre);
     }
+    
+    public Optional<Jugador> getByDni(Integer dni){
+        return jugadorRepository.findByDni(dni);
+    }
 
     public void  save(Jugador jugador){
         jugadorRepository.save(jugador);
@@ -45,5 +49,8 @@ public class JugadorService {
 
     public boolean existsByNombre(String nombre){
         return jugadorRepository.existsByNombre(nombre);
+    }
+    public boolean existsByDni(Integer dni){
+        return jugadorRepository.existsByDni(dni);
     }
 }
