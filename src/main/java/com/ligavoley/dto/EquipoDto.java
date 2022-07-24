@@ -1,7 +1,7 @@
 package com.ligavoley.dto;
 
 import java.util.List;
-
+import java.util.Set;
 
 import com.ligavoley.model.Jugador;
 
@@ -20,13 +20,13 @@ public class EquipoDto {
 	private String categoria;
 	
 
-	private List<Jugador> jugadores;
+	private Set<Jugador> jugadores;
 	
 	public EquipoDto() {
 		
 	}
 
-	public EquipoDto(String nombre, String localidad,String sexo, Integer puntos,String nombreClave,String categoria, List<Jugador> jugadores) {
+	public EquipoDto(String nombre, String localidad,String sexo, Integer puntos,String nombreClave,String categoria, Set<Jugador> jugadores) {
 		super();
 		this.nombre = nombre;
 		this.localidad = localidad;
@@ -85,11 +85,11 @@ public class EquipoDto {
 		this.puntos = puntos;
 	}
 
-	public List<Jugador> getJugadores() {
+	public Set<Jugador> getJugadores() {
 		return jugadores;
 	}
 
-	public void setJugadores(List<Jugador> jugadores) {
+	public void setJugadores(Set<Jugador> jugadores) {
 this.jugadores = jugadores;
 		//this.jugadores.addAll(jugadores);
 		/*for(Jugador jugador: jugadores) {

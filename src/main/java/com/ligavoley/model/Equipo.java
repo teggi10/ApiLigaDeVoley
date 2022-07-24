@@ -1,7 +1,9 @@
 package com.ligavoley.model;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -52,13 +54,13 @@ public class Equipo {
 	
 	@OneToMany(mappedBy="equipo", cascade = CascadeType.ALL,fetch = FetchType.EAGER, orphanRemoval=true)
 	@LazyCollection(LazyCollectionOption.FALSE)
-	private List<Jugador> jugadores = new ArrayList<>();
+	private Set<Jugador> jugadores = new HashSet<>();
 
 	public Equipo() {
 		super();
 	}
 
-	public Equipo(Integer idEquipo, String nombre, String localidad,String sexo, Integer puntos,String nombreClave,String categoria, List<Jugador> jugadores) {
+	public Equipo(Integer idEquipo, String nombre, String localidad,String sexo, Integer puntos,String nombreClave,String categoria, Set<Jugador> jugadores) {
 		super();
 		this.idEquipo = idEquipo;
 		this.nombre = nombre;
@@ -132,11 +134,11 @@ public class Equipo {
 	}
 
 	@JsonManagedReference
-	public List<Jugador> getJugadores() {
+	public Set<Jugador> getJugadores() {
 		return jugadores;
 	}
 
-	public void setJugadores(List<Jugador> jugadores) {
+	public void setJugadores(Set<Jugador> jugadores) {
 	//	this.jugadores = jugadores;
 	this.jugadores.addAll(jugadores);
 	for(Jugador jugador: jugadores) {
