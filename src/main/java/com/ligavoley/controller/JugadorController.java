@@ -61,7 +61,7 @@ public class JugadorController {
 	    public ResponseEntity<?> create(@RequestBody JugadorDto jugadorDto){
 	        if(Strings.isBlank(jugadorDto.getNombre()))
 	            return new ResponseEntity(new Mensaje("el nombre es obligatorio"), HttpStatus.BAD_REQUEST);
-	        if(jugadorService.existsByNombre(jugadorDto.getNombre()) && jugadorService.getByNombre(jugadorDto.getNombre()).get().getApellido() == jugadorDto.getApellido())
+	        if(jugadorService.existsByNombre(jugadorDto.getNombre()))
 	            return new ResponseEntity(new Mensaje("ese nombre ya existe"), HttpStatus.BAD_REQUEST);
 	        Jugador jugador = new Jugador(null, jugadorDto.getNombre(), jugadorDto.getApellido(), jugadorDto.getDni(), jugadorDto.getFechaNac(), jugadorDto.getNumero(), jugadorDto.getPosicion(),jugadorDto.isEliminado(), jugadorDto.getEquipo());
 	        jugadorService.save(jugador);
@@ -89,6 +89,7 @@ public class JugadorController {
 	        jugador.setEquipo(jugadorService.getOne(id).get().getEquipo());
 	        jugador.setDni(jugadorDto.getDni());
 	        jugador.setFechaNac(jugadorDto.getFechaNac());
+	        jugador.setEliminado(jugadorDto.isEliminado());
 	        //equipoService.getOne(jugadorDto.getEquipo()).get()
 	        jugadorService.save(jugador);
 	        return new ResponseEntity(new Mensaje("jugador actualizado"), HttpStatus.OK);
@@ -100,7 +101,10 @@ public class JugadorController {
 	    public ResponseEntity<?> delete(@PathVariable("id")int id){
 	        if(!jugadorService.existsById(id))
 	            return new ResponseEntity(new Mensaje("no existe"), HttpStatus.NOT_FOUND);
-	        jugadorService.delete(id);
+	        //jugadorService.delete(id);
+	        Jugador jugador = jugadorService.getOne(id).get();
+	        jugador.setEliminado(true);
+	        jugadorService.save(jugador);
 	        
 	        return new ResponseEntity(new Mensaje("jugador eliminado"), HttpStatus.OK);
 	    }
