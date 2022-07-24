@@ -61,9 +61,11 @@ public class JugadorController {
 	 /* @Secured("ROLE_ADMIN")*/
 	  @PostMapping("/create")
 	    public ResponseEntity<?> create(@RequestBody JugadorDto jugadorDto){
-	        if(jugadorService.existsByNombre(jugadorDto.getNombre()) && jugadorService.getByNombre(jugadorDto.getNombre()).get().getDni() == jugadorDto.getDni()) {
+	        if(jugadorService.existsByNombre(jugadorDto.getNombre())
+	        && jugadorService.getByNombre(jugadorDto.getNombre()).get().getDni() == jugadorDto.getDni()) {
 	        	Optional<Jugador> jugadorAlmacenado = jugadorService.getByNombre(jugadorDto.getNombre());
-	        	if(jugadorAlmacenado.isPresent() && jugadorAlmacenado.get().getEquipo() == jugadorDto.getEquipo() && jugadorAlmacenado.get().getDni() == jugadorDto.getDni()) {
+	        	if(jugadorAlmacenado.get().getEquipo().getIdEquipo() == jugadorDto.getEquipo().getIdEquipo() 
+	        	&& jugadorAlmacenado.get().getDni() == jugadorDto.getDni()) {
 	        	    jugadorAlmacenado.get().setNombre(jugadorDto.getNombre());
 	        	    jugadorAlmacenado.get().setApellido(jugadorDto.getApellido());
 	        	    jugadorAlmacenado.get().setNumero(jugadorDto.getNumero());

@@ -28,7 +28,7 @@ public class Jugador {
 	@Column(name="apellido", length = 100, nullable = false)
 	private String apellido;
 	
-	@Column(name="dni", length = 100, nullable = false)
+	@Column(name="dni", length = 100, nullable = false, unique =true)
 	private Integer dni;
 	
 	@Column(name="fechaNac", length = 100, nullable = false)
