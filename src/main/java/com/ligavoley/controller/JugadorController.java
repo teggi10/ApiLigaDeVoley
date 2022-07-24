@@ -63,7 +63,7 @@ public class JugadorController {
 	            return new ResponseEntity(new Mensaje("el nombre es obligatorio"), HttpStatus.BAD_REQUEST);
 	        if(jugadorService.existsByNombre(jugadorDto.getNombre()) && jugadorService.getByNombre(jugadorDto.getNombre()).get().getApellido() == jugadorDto.getApellido())
 	            return new ResponseEntity(new Mensaje("ese nombre ya existe"), HttpStatus.BAD_REQUEST);
-	        Jugador jugador = new Jugador(null, jugadorDto.getNombre(), jugadorDto.getApellido(), jugadorDto.getDni(), jugadorDto.getFechaNac(), jugadorDto.getNumero(), jugadorDto.getPosicion(), jugadorDto.getEquipo());
+	        Jugador jugador = new Jugador(null, jugadorDto.getNombre(), jugadorDto.getApellido(), jugadorDto.getDni(), jugadorDto.getFechaNac(), jugadorDto.getNumero(), jugadorDto.getPosicion(),jugadorDto.isEliminado(), jugadorDto.getEquipo());
 	        jugadorService.save(jugador);
 	        return new ResponseEntity(new Mensaje("jugador creado"), HttpStatus.OK);
 	    }

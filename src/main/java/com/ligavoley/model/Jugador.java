@@ -12,7 +12,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.ligavoley.dto.EquipoDto;
 
 @Entity
 @Table(name="jugador")
@@ -41,6 +40,9 @@ public class Jugador {
 	@Column(name="posicion", length = 50)
 	private String posicion;
 	
+	@Column(name="eliminado")
+	private boolean eliminado;
+	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "equipo_id")
 	private Equipo equipo;
@@ -49,7 +51,7 @@ public class Jugador {
 		super();
 	}
 	
-	public Jugador(Integer idJugador, String nombre, String apellido,Integer dni ,String fechaNac, Integer numero, String posicion, Equipo equipo) {
+	public Jugador(Integer idJugador, String nombre, String apellido,Integer dni ,String fechaNac, Integer numero, String posicion,boolean eliminado, Equipo equipo) {
 		super();
 		this.idJugador = idJugador;
 		this.nombre = nombre;
@@ -59,6 +61,15 @@ public class Jugador {
 		this.equipo = equipo;
 		this.dni = dni;
 		this.fechaNac = fechaNac;
+		this.eliminado = eliminado;
+	}
+
+	public boolean isEliminado() {
+		return eliminado;
+	}
+
+	public void setEliminado(boolean eliminado) {
+		this.eliminado = eliminado;
 	}
 
 	public Integer getDni() {

@@ -17,14 +17,14 @@ public class JugadorDto {
 	
 	private String fechaNac;
 	
-	
 	private String posicion;
 	
-
+	private boolean eliminado;
+	
 	private Equipo equipo;
 
 
-	public JugadorDto(String nombre, String apellido, Integer numero,String fechaNac,Integer dni , String posicion, Equipo equipo) {
+	public JugadorDto(String nombre, String apellido, Integer numero,String fechaNac,Integer dni , String posicion,boolean eliminado, Equipo equipo) {
 		super();
 		this.nombre = nombre;
 		this.apellido = apellido;
@@ -33,6 +33,17 @@ public class JugadorDto {
 		this.equipo = equipo;
 		this.dni = dni;
 		this.fechaNac = fechaNac;
+		this.eliminado = eliminado;
+	}
+
+
+	public boolean isEliminado() {
+		return eliminado;
+	}
+
+
+	public void setEliminado(boolean eliminado) {
+		this.eliminado = eliminado;
 	}
 
 
