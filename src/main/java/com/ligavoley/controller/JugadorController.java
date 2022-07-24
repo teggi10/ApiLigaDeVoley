@@ -1,6 +1,7 @@
 package com.ligavoley.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,13 +60,17 @@ public class JugadorController {
 	 /* @Secured("ROLE_ADMIN")*/
 	  @PostMapping("/create")
 	    public ResponseEntity<?> create(@RequestBody JugadorDto jugadorDto){
-	        if(Strings.isBlank(jugadorDto.getNombre()))
-	            return new ResponseEntity(new Mensaje("el nombre es obligatorio"), HttpStatus.BAD_REQUEST);
-	        if(jugadorService.existsByNombre(jugadorDto.getNombre()))
-	            return new ResponseEntity(new Mensaje("ese nombre ya existe"), HttpStatus.BAD_REQUEST);
+	        if(jugadorService.existsByNombre(jugadorDto.getNombre()) && jugadorService.getByNombre(jugadorDto.getNombre()).get().getDni() == jugadorDto.getDni()) {
+	        	Optional<Jugador> jugadorAlmacenado = jugadorService.getByNombre(jugadorDto.getNombre());
+	        	if(jugadorAlmacenado.isPresent() && jugadorAlmacenado.get().getEquipo() == jugadorDto.getEquipo() && jugadorAlmacenado.get().getDni() == jugadorDto.getDni()) {
+	        		jugadorAlmacenado.get().setEliminado(false);
+	        	}else {
+	        		return new ResponseEntity(new Mensaje("No se permite cambiar jugadores de equipo"), HttpStatus.BAD_REQUEST);
+	        	}
+	        }
 	        Jugador jugador = new Jugador(null, jugadorDto.getNombre(), jugadorDto.getApellido(), jugadorDto.getDni(), jugadorDto.getFechaNac(), jugadorDto.getNumero(), jugadorDto.getPosicion(),jugadorDto.isEliminado(), jugadorDto.getEquipo());
 	        jugadorService.save(jugador);
-	        return new ResponseEntity(new Mensaje("jugador creado"), HttpStatus.OK);
+	        return new ResponseEntity(new Mensaje("Jugador creado"), HttpStatus.OK);
 	    }
 	  
 	  @PreAuthorize("permitAll() OR isAnonymous()")
