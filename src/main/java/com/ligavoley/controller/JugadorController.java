@@ -35,6 +35,7 @@ public class JugadorController {
 	JugadorService jugadorService;
 	EquipoService equipoService;
 	
+	 @CrossOrigin(origins = "https://liga-de-voley.web.app")
 	 @PreAuthorize("permitAll() OR isAnonymous()")
 	 @GetMapping("/lista") 
 	    public ResponseEntity<List<Jugador>> list(){
@@ -42,6 +43,7 @@ public class JugadorController {
 	        return new ResponseEntity<List<Jugador>>(list, HttpStatus.OK);
 	    }
 	 
+	  @CrossOrigin(origins = "https://liga-de-voley.web.app")
 	  @GetMapping("/detail/{id}")
 	    public ResponseEntity<Object> getById(@PathVariable("id") int id){
 	        if(!jugadorService.existsById(id))
@@ -66,6 +68,7 @@ public class JugadorController {
 //	        return new ResponseEntity<Jugador>(jugador, HttpStatus.OK);
 //	    }
 	  
+	  @CrossOrigin(origins = "https://liga-de-voley.web.app")
 	  @PreAuthorize("permitAll() OR isAnonymous()")
 	 /* @Secured("ROLE_ADMIN")*/
 	  @PostMapping("/create")
@@ -95,6 +98,8 @@ public class JugadorController {
 //	        	
 //	        }
 	    }
+	  
+	  @CrossOrigin(origins = "https://liga-de-voley.web.app")
 	  @PreAuthorize("permitAll() OR isAnonymous()")
 	  /*@Secured("ROLE_ADMIN")*/
 	  @PutMapping("/update/{id}")
@@ -122,6 +127,7 @@ public class JugadorController {
 	        return new ResponseEntity(new Mensaje("jugador actualizado"), HttpStatus.OK);
 	    }
 	  
+	  @CrossOrigin(origins = "https://liga-de-voley.web.app")
 	  @PreAuthorize("permitAll() OR isAnonymous()")
 	 /* @Secured("ROLE_ADMIN")*/
 	  @DeleteMapping("/delete/{id}")

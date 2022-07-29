@@ -31,12 +31,14 @@ public class EquipoController {
 	 @Autowired
 	 EquipoService equipoService;
 	 
+	 @CrossOrigin(origins = "https://liga-de-voley.web.app")
 	 @GetMapping("/lista") 
 	    public ResponseEntity<List<Equipo>> list(){
 	        List<Equipo> list = equipoService.list();
 	        return new ResponseEntity<List<Equipo>>(list, HttpStatus.OK);
 	    }
 	 
+	  @CrossOrigin(origins = "https://liga-de-voley.web.app")
 	  @GetMapping("/detail/{id}")
 	    public ResponseEntity<Object> getById(@PathVariable("id") int id){
 	        if(!equipoService.existsById(id))
@@ -45,6 +47,7 @@ public class EquipoController {
 	        return new ResponseEntity<Object>(equipo, HttpStatus.OK);
 	    }
 	  
+	  @CrossOrigin(origins = "https://liga-de-voley.web.app")
 	  @GetMapping("/detailname/{nombre}")
 	    public ResponseEntity<Equipo> getByNombre(@PathVariable("nombre") String nombre){
 	        if(!equipoService.existsByNombre(nombre))
@@ -53,7 +56,7 @@ public class EquipoController {
 	        return new ResponseEntity<Equipo>(equipo, HttpStatus.OK);
 	    }
 	  
-	  
+	  @CrossOrigin(origins = "https://liga-de-voley.web.app")
 	  @PostMapping("/create")
 	    public ResponseEntity<?> create(@RequestBody EquipoDto equipoDto){
 	        if(Strings.isBlank(equipoDto.getNombre()))
@@ -67,7 +70,7 @@ public class EquipoController {
 	        return new ResponseEntity(new Mensaje("equipo creado"), HttpStatus.OK);
 	    }
 	  
-	  
+	  @CrossOrigin(origins = "https://liga-de-voley.web.app")
 	  @PutMapping("/update/{id}")
 	    public ResponseEntity<?> update(@PathVariable("id")int id, @RequestBody EquipoDto equipoDto){
 	        if(!equipoService.existsById(id))
@@ -89,7 +92,7 @@ public class EquipoController {
 	        return new ResponseEntity(new Mensaje("equipo actualizado" + equipo.getJugadores()), HttpStatus.OK);
 	    }
 	  
-	 
+	  @CrossOrigin(origins = "https://liga-de-voley.web.app")
 	  @DeleteMapping("/delete/{id}")
 	    public ResponseEntity<?> delete(@PathVariable("id")int id){
 	        if(!equipoService.existsById(id))

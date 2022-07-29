@@ -39,7 +39,7 @@ import com.ligavoley.security.service.UsuarioService;
 
 @RestController
 @RequestMapping("/auth")
-@CrossOrigin
+@CrossOrigin("*")
 public class AuthController {
 
     @Autowired
@@ -57,6 +57,7 @@ public class AuthController {
     @Autowired
     JwtProvider jwtProvider;
 
+    @CrossOrigin(origins = "https://liga-de-voley.web.app")
     @PostMapping("/nuevo")
     public ResponseEntity<?> nuevo(@Validated @RequestBody NuevoUsuario nuevoUsuario, BindingResult bindingResult){
         if(bindingResult.hasErrors())
@@ -75,6 +76,7 @@ public class AuthController {
         return new ResponseEntity(new Mensaje("usuario guardado"), HttpStatus.CREATED);
     }
     
+    @CrossOrigin(origins = "https://liga-de-voley.web.app")
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> delete(@PathVariable("id")int id){
     	if(!usuarioService.existsById(id))
@@ -84,6 +86,7 @@ public class AuthController {
     	
     }
 
+    @CrossOrigin(origins = "https://liga-de-voley.web.app")
     @PostMapping("/login")
     public ResponseEntity<JwtDto> login( @RequestBody LoginUsuario loginUsuario, BindingResult bindingResult){
         if(bindingResult.hasErrors())
