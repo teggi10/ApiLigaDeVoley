@@ -62,59 +62,16 @@ public class JugadorController {
 	  @PreAuthorize("permitAll() OR isAnonymous()")
 	 /* @Secured("ROLE_ADMIN")*/
 	  @PostMapping("/create")
-	    public ResponseEntity<?> create(@RequestBody JugadorDto jugadorDto){
-		  Jugador jugador = new Jugador(null, jugadorDto.getNombre(), jugadorDto.getApellido(), jugadorDto.getDni(), jugadorDto.getFechaNac(), jugadorDto.getNumero(), jugadorDto.getPosicion(),jugadorDto.isEliminado(), jugadorDto.getEquipo());
-		  jugadorService.save(jugador);
-		  return new ResponseEntity(new Mensaje("Jugador creado"), HttpStatus.OK);
-//	        if(jugadorService.existsByNombre(jugadorDto.getNombre())
-//	        && jugadorService.getByNombre(jugadorDto.getNombre()).get().getApellido() == jugadorDto.getApellido()) {
-//	        	
-//	        	Optional<Jugador> jugadorAlmacenado = jugadorService.getByNombre(jugadorDto.getNombre());
-//	        	if(jugadorAlmacenado.get().getEquipo().getIdEquipo() == jugadorDto.getEquipo().getIdEquipo() 
-//	        	&& jugadorAlmacenado.get().getDni() == jugadorDto.getDni()) {
-//	        	    jugadorAlmacenado.get().setNombre(jugadorDto.getNombre());
-//	        	    jugadorAlmacenado.get().setApellido(jugadorDto.getApellido());
-//	        	    jugadorAlmacenado.get().setNumero(jugadorDto.getNumero());
-//	        	    jugadorAlmacenado.get().setPosicion(jugadorDto.getPosicion());
-//	        	    jugadorAlmacenado.get().setEquipo(jugadorDto.getEquipo());
-//	        	    jugadorAlmacenado.get().setDni(jugadorDto.getDni());
-//	        	    jugadorAlmacenado.get().setFechaNac(jugadorDto.getFechaNac());
-//	        	    jugadorAlmacenado.get().setEliminado(jugadorDto.isEliminado());
-//	        		jugadorService.save(jugadorAlmacenado.get());
-//	    	        return new ResponseEntity(new Mensaje("Jugador creado"), HttpStatus.OK);
-//	        	}else {
-//	        		return new ResponseEntity(new Mensaje("No se permite cambiar jugadores de equipo"), HttpStatus.BAD_REQUEST);
-//	        	}
-//	        	
-//	        }
+	    public ResponseEntity<Mensaje> create(@RequestBody JugadorDto jugadorDto){
+			return ResponseEntity.ok(jugadorService.save(jugadorDto));
 	    }
 	  
 	  @CrossOrigin(origins = "https://liga-de-voley.web.app")
 	  @PreAuthorize("permitAll() OR isAnonymous()")
 	  /*@Secured("ROLE_ADMIN")*/
 	  @PutMapping("/update/{id}")
-	    public ResponseEntity<?> update(@PathVariable("id")int id, @RequestBody JugadorDto jugadorDto){
-	        if(!jugadorService.existsById(id))
-	            return new ResponseEntity(new Mensaje("no existe"), HttpStatus.NOT_FOUND);
-	        if(jugadorService.existsByNombre(jugadorDto.getNombre())
-	        		&& jugadorService.getByNombre(jugadorDto.getNombre()).get().getIdJugador() != id
-	        		&& jugadorService.getByNombre(jugadorDto.getNombre()).get().getApellido() == jugadorDto.getApellido())
-	            return new ResponseEntity(new Mensaje("ese nombre ya existe"), HttpStatus.BAD_REQUEST);
-	        if(Strings.isBlank(jugadorDto.getNombre()))
-	            return new ResponseEntity(new Mensaje("el nombre es obligatorio"), HttpStatus.BAD_REQUEST);
-	        
-	        Jugador jugador = jugadorService.getOne(id).get();
-	        jugador.setNombre(jugadorDto.getNombre());
-	        jugador.setApellido(jugadorDto.getApellido());
-	        jugador.setNumero(jugadorDto.getNumero());
-	        jugador.setPosicion(jugadorDto.getPosicion());
-	        jugador.setEquipo(jugadorService.getOne(id).get().getEquipo());
-	        jugador.setDni(jugadorDto.getDni());
-	        jugador.setFechaNac(jugadorDto.getFechaNac());
-	        jugador.setEliminado(jugadorDto.isEliminado());
-	        //equipoService.getOne(jugadorDto.getEquipo()).get()
-	        jugadorService.save(jugador);
-	        return new ResponseEntity(new Mensaje("jugador actualizado"), HttpStatus.OK);
+	    public ResponseEntity<Mensaje> update(@PathVariable("id")int id, @RequestBody JugadorDto jugadorDto){
+			return ResponseEntity.ok(jugadorService.update(id,jugadorDto));
 	    }
 	  
 	  @CrossOrigin(origins = "https://liga-de-voley.web.app")
@@ -122,13 +79,6 @@ public class JugadorController {
 	 /* @Secured("ROLE_ADMIN")*/
 	  @DeleteMapping("/delete/{id}")
 	    public ResponseEntity<?> delete(@PathVariable("id")int id){
-	        if(!jugadorService.existsById(id))
-	            return new ResponseEntity(new Mensaje("no existe"), HttpStatus.NOT_FOUND);
-	        //jugadorService.delete(id);
-	        Jugador jugador = jugadorService.getOne(id).get();
-	        jugador.setEliminado(true);
-	        jugadorService.save(jugador);
-	        
-	        return new ResponseEntity(new Mensaje("jugador eliminado"), HttpStatus.OK);
+			return ResponseEntity.ok(jugadorService.delete(id));
 	    }
 }
